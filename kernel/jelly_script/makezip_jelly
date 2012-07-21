@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2012 Christopher Noel Hesse
+#                <christopher.hesse_at_htp-tel.de>
+#
+
+#
+# PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+# 
+# YOU MAY COPY, MODIFY AND/OR REDISTRIBUTE THIS FILE IF YOU MENTION
+# THE AUTHOR ("CHRISTOPHER NOEL HESSE, 2012")
+#
+
+echo "Creating and refreshing the new Update.zip file ..."
+echo
+
+cd /home/chris/working_dir/jelly
+
+if [ -e kernel_jelly.zip ]
+then
+zip -r kernel_jelly kern.blob
+else echo "No zip in jelly working dir ?!"
+fi
+
+echo
+echo "New Update.zip successfully created !"

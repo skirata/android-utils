@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2012 Christopher Noel Hesse
+#                <christopher.hesse_at_htp-tel.de>
+#
+
+#
+# PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+# 
+# YOU MAY COPY, MODIFY AND/OR REDISTRIBUTE THIS FILE IF YOU MENTION
+# THE AUTHOR ("CHRISTOPHER NOEL HESSE, 2012")
+#
+
+echo "This is a fully automac script for pushing freshly created recovery images to the Transformer"
+echo
+echo "Comoiling new recovery image"
+echo
+cd
+cd cm9
+. build/envsetup.sh
+lunch full_tf101-eng
+make clean
+make -j3 recoveryimage
+echo
+cd
+cp -u out/target/product/tf101/recovery.img.orig /lol/wheelie
+cd lol/wheelie
+sudo ./wheelie -2 -o 0x300d8011 --bl bootloader.bin -c transformer.bct
+sudo ./nvflash -r download 5 test.SOS
+sudo ./nvflash -r --go
+echo
+echo "Finished, you should now see your tablet rebooting"
+echo
+cd

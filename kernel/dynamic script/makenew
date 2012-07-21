@@ -1,0 +1,65 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2012 Christopher Noel Hesse
+#                <christopher.hesse_at_htp-tel.de>
+#
+
+#
+# PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+# 
+# YOU MAY COPY, MODIFY AND/OR REDISTRIBUTE THIS FILE IF YOU MENTION
+# THE AUTHOR ("CHRISTOPHER NOEL HESSE, 2012")
+#
+
+src=`cat .setup.src`
+wrkdir=`cat .setup.wrkdir`
+
+echo
+
+# make ARCH=arm CROSS_COMPILE=$CCOMPILER -j`grep 'processor' /proc/cpuinfo | wc -l` clean
+
+echo "Creating zImage"
+echo
+
+cd $src
+
+make ARCH=arm CROSS_COMPILE=$CCOMPILER -j`grep 'processor' /proc/cpuinfo | wc -l`
+echo
+echo "Creating bootimage and merging with ramdisk"
+echo
+
+cd $src
+
+src_combined=`cat .setup.src`"arch/arm/boot/zImage"
+
+cd $wrkdir
+
+echo
+echo "===============================================";
+echo "== Please input your desired ramdisk value : ==";
+echo "==                                           ==";
+echo "==    1 = asus ramdisk | 2 = aokp ramdisk    ==";
+echo "==     [blank] to cancel                     ==";
+echo "===============================================";
+echo
+
+read -e inputline
+what="$inputline"
+
+ case "$what" in
+      [1]*) echo "Making asus compatible ramdisk ..."; rm -f ramdisk.cpio.gz; cp ramdisks/asus_ramdisk.cpio.gz ramdisk.cpio.gz;; 
+      [2]*) echo "Making aokp comaptible ramdisk ..."; rm -f ramdisk.cpio.gz; cp ramdisks/aokp_ramdisk.cpio.gz ramdisk.cpio.gz;;
+            *) echo "Nothing selected, or incorrect input; cancelling..."; exit;;
+ esac
+
+mkbootimg --kernel $src_combined --ramdisk ramdisk.cpio.gz -o kernelblob.LNX
+
+echo
+echo "creating blob file"
+echo
+mkblob boot kernelblob.LNX kern.blob
+echo
+

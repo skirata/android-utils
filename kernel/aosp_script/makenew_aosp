@@ -1,0 +1,50 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2012 Christopher Noel Hesse
+#                <christopher.hesse_at_htp-tel.de>
+#
+
+#
+# PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+# 
+# YOU MAY COPY, MODIFY AND/OR REDISTRIBUTE THIS FILE IF YOU MENTION
+# THE AUTHOR ("CHRISTOPHER NOEL HESSE, 2012")
+#
+
+echo
+
+cd /home/chris/tf101-kernel-harmony
+
+make ARCH=arm CROSS_COMPILE=$CCOMPILER -j`grep 'processor' /proc/cpuinfo | wc -l` clean
+
+echo "making config (evt. again) to ensure .config is used on standalone builds"
+
+cleanup_aosp
+
+mkaconfig_aosp
+
+echo
+echo "Creating zImage"
+echo
+
+cd /home/chris/tf101-kernel-harmony
+
+make ARCH=arm CROSS_COMPILE=$CCOMPILER -j`grep 'processor' /proc/cpuinfo | wc -l`
+echo
+echo "Creating bootimage and merging with ramdisk"
+echo
+
+cd /home/chris/working_dir/aosp
+
+mkbootimg --kernel /home/chris/tf101-kernel-harmony/arch/arm/boot/zImage --ramdisk /home/chris/working_dir/aosp/ramdisk_aosp.cpio.gz -o kernelblob.LNX
+echo
+echo "creating blob file"
+echo
+# mkblob_aosp boot kernelblob.LNX kern.blob
+blobpack kern.blob.HEADER kern.blob LNX kernelblob.LNX
+
+echo
+

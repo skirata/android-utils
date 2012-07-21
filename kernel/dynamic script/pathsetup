@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2012 Christopher Noel Hesse
+#                <christopher.hesse_at_htp-tel.de>
+#
+
+#
+# PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+# 
+# YOU MAY COPY, MODIFY AND/OR REDISTRIBUTE THIS FILE IF YOU MENTION
+# THE AUTHOR ("CHRISTOPHER NOEL HESSE, 2012")
+#
+
+if [ -e .setup.src ]
+then 
+rm .setup.src;
+fi
+if [ -e .setup.wrkdir ]
+then 
+rm .setup.wrkdir;
+fi
+echo "Path to kernel source directoy :";
+echo
+read -e src;
+echo "$src" > .setup.src;
+echo
+echo "Path to your output_directory containing the _your_initramfs.cpio.gz file :";
+echo
+read -e wrkdir;
+echo "$wrkdir" > .setup.wrkdir; 
+echo

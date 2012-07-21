@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2011 Christopher Noel Hesse
+#    Author : Christopher Hesse
+#
+#
+#    PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+echo
+echo "==============================================";
+echo "== Please input your desired config value : ==";
+echo "==                                          ==";
+echo "==     1 = asus config | 2 = aokp config    ==";
+echo "==     [blank] to cancel                    ==";
+echo "==============================================";
+echo
+ 
+read -e inputline
+what="$inputline"
+
+case "$what" in
+      [1]*) echo "Making asus compatible .config ..."; rm -f .config; cp configs/asus_config .config;; 
+      [2]*) echo "Making aokp comaptible .config ..."; rm -f .config; cp configs/aokp_config .config;;
+            *) echo "Nothing selected, or incorrect input; cancelling..."; exit;;
+esac
+echo

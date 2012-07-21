@@ -1,0 +1,80 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2012 Christopher Noel Hesse
+#                <christopher.hesse_at_htp-tel.de>
+#
+
+#
+# PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+# 
+# YOU MAY COPY, MODIFY AND/OR REDISTRIBUTE THIS FILE IF YOU MENTION
+# THE AUTHOR ("CHRISTOPHER NOEL HESSE, 2012")
+#
+
+echo "Fully automatic kernel script (c) Christopher Noel Hesse"
+echo
+echo "PLEASE NOTE THAT THIS SOFTWARE HAS HAD LIMITED TESTING AND"
+echo "I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS"
+echo
+
+# initialized state depends on only .setup.src, cause .setup.wrkdir cannot exist without it
+
+if [ -e .setup.src ] 
+then
+echo
+echo "Found path setup. Do you want to update your paths [y/n] ?";
+read -e inputline
+path="$inputline"
+
+case "$path" in
+      [y]*) exec pathsetup; initialized="y";;
+      [n]*) echo "proceeding with kernel script ...";;
+         *) echo "Nothing selected, or incorrect input; cancelling..."; initialized="y"; echo; exit;;
+esac
+else
+exec pathsetup;
+fi
+
+sleep 2
+echo
+echo "You have 5 seconds to cancel this action"
+echo
+echo "5"
+echo
+sleep 1
+echo "4"
+echo
+sleep 1
+echo "3"
+echo
+sleep 1
+echo "2"
+echo
+sleep 1
+echo "1"
+echo
+sleep 1
+echo "GO!"
+echo
+sleep 3
+mkaconfig
+echo
+sleep 3
+cleanup
+echo
+sleep 3
+makenew
+echo
+sleep 3
+makezip
+echo
+sleep 3
+pushnew
+echo
+sleep 1
+echo
+echo "Script finished..."
+echo

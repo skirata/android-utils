@@ -1,0 +1,64 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2012 Christopher Noel Hesse
+#                <christopher.hesse_at_htp-tel.de>
+#
+
+#
+# PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+# 
+# YOU MAY COPY, MODIFY AND/OR REDISTRIBUTE THIS FILE IF YOU MENTION
+# THE AUTHOR ("CHRISTOPHER NOEL HESSE, 2012")
+#
+echo
+echo
+echo
+echo "Fully automatic kernel script (c) Christopher Noel Hesse"
+echo
+echo "PLEASE NOTE THAT THIS SOFTWARE HAS HAD LIMITED TESTING AND"
+echo "I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS"
+echo
+
+sleep 2
+echo
+echo "You have 5 seconds to cancel 3G VERSION BUILDING"
+echo
+echo "5"
+echo
+sleep 1
+echo "4"
+echo
+sleep 1
+echo "3"
+echo
+sleep 1
+echo "2"
+echo
+sleep 1
+echo "1"
+echo
+sleep 1
+echo "GO!"
+echo
+sleep 3
+mkaconfig_3g
+echo
+sleep 3
+cleanup_3g
+echo
+sleep 3
+makenew_3g
+echo
+sleep 3
+makezip_3g
+echo
+sleep 3
+pushnew_3g
+echo
+sleep 1
+echo
+echo "3G Script finished..."
+echo

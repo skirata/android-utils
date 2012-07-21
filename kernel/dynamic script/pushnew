@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2012 Christopher Noel Hesse
+#                <christopher.hesse_at_htp-tel.de>
+#
+
+#
+# PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+# 
+# YOU MAY COPY, MODIFY AND/OR REDISTRIBUTE THIS FILE IF YOU MENTION
+# THE AUTHOR ("CHRISTOPHER NOEL HESSE, 2012")
+#
+
+wrkdir=`cat .setup.wrkdir`
+wrkdir_zip_combo=`cat .setup.wrkdir`"kernel_aokp.zip"
+
+echo "Looking for devices..."
+echo
+adb devices
+echo
+echo "Pushing files to the transformer ..."
+
+adb push $wrkdir_zip_combo /sdcard/
+
+echo
+echo "Finished. You can now flash the freshly created kernel from the root of your sdcard (internal)"
+echo

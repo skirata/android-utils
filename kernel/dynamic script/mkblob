@@ -1,0 +1,90 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2011 stridger
+#    Author : stridger
+#    eMail  : stridger@opencodes.org (remove 'rem_' before sending mail)
+#    Site   : http://www.opencodes.org
+#
+# mkblob is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2.1 of
+# the License, or (at your option) any later version.
+#
+# mkblob is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public
+# License along with "filebrowser"; if not, write to the Free
+# Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+# 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+#
+
+#
+# PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+function usage () {
+  echo "Usage: $0 <boot|recovery> <imagefile> <bloboutput>"
+  exit
+}
+
+
+if [ $# != 3 ]; then
+  usage
+fi
+
+if [ ! -e $2 ]; then
+  echo "ERROR: $2 cannot be found"
+  exit
+fi
+
+if [ -e $3 ]; then
+  echo "ERROR: $3 already exists"
+  exit
+fi
+
+header="
+4D 53 4D 2D 52 41 44 49 4F 2D 55 50 44 41 54 45
+00 00 01 00 3C 00 00 00 3C 00 00 00 01 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00
+"
+
+if [ $1 == 'boot' ]; then
+	partaddr="4C 4E 58 00"
+elif [ $1 == 'recovery' ]; then
+	partaddr="53 4F 53 00"
+else
+	usage
+fi
+
+filepos="4C 00 00 00"
+
+echo "Calculating image size..."
+
+size=`stat -c%s "$2"`
+length=`printf "%08x" $size | sed -e 's/\(..\)\(..\)\(..\)\(..\)/\1 \2 \3 \4 /' | tac -s' '`
+
+if [ -n "$header" ] && [ -n "$partaddr" ] && [ -n "$filepos" ] && [ -n "$length" ]; then
+	head="$header $partaddr $filepos $length 01 00 00 00"
+else
+	echo "An error has occured."
+	exit
+fi
+
+echo "Writing blob..."
+
+for byte in $head; do
+        printf "\x$byte" >> "$3"
+done
+
+echo "Inserting $1 image..."
+
+cat "$2" >> "$3"
+echo "Done!"
+
+echo
+echo "If you didn't see any errors, then the ASUS blob should have been written to $3."

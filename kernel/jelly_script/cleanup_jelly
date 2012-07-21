@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2012 Christopher Noel Hesse
+#                <christopher.hesse_at_htp-tel.de>
+#
+
+#
+# PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+# 
+# YOU MAY COPY, MODIFY AND/OR REDISTRIBUTE THIS FILE IF YOU MENTION
+# THE AUTHOR ("CHRISTOPHER NOEL HESSE, 2012")
+#
+
+echo
+echo "Cleaning up old *.zips on your transformer's sdcard root directory and all the outdated stuff in your working directory"
+echo
+adb shell rm /sdcard/kernel_jelly.zip
+echo
+
+cd /home/chris/working_dir/jelly
+rm kernelblob.LNX
+rm kern.blob

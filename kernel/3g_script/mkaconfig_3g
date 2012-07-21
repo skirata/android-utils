@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2011 Christopher Noel Hesse
+#    Author : Christopher Hesse
+#
+#
+#    PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+cd /home/chris/tf101-kernel-harmony
+
+rm -f .config; cp /home/chris/working_dir/3g/3g_config .config
+

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#
+#    Copyright (c) 2012 Christopher Noel Hesse
+#                <christopher.hesse_at_htp-tel.de>
+#
+
+#
+# PLEASE NOTE THAT I ACCEPT NO RESPONSIBILITY FOR ANY DAMAGE OR BRICKS
+#
+
+# 
+# YOU MAY COPY, MODIFY AND/OR REDISTRIBUTE THIS FILE IF YOU MENTION
+# THE AUTHOR ("CHRISTOPHER NOEL HESSE, 2012")
+#
+echo
+echo "Deleting old ramdisk cpio image ..."
+echo
+rm -f *.cpio.gz
+echo
+echo "Repacking ramdisk files ..."
+echo
+find . | cpio -o -H newc | gzip > newramdisk.cpio.gz
+echo
+echo "New ramdisk cpio image created"
+echo
+
